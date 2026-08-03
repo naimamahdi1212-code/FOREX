@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forex Mastery Hub — Learn Forex & MT5 the Right Way</title>
+<meta name="description" content="A complete educational hub for learning Forex trading fundamentals, technical analysis, strategy, risk management, and the MetaTrader 5 platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ============ DESIGN TOKENS ============ */
+:root{
+  --navy: #0A192F;
+  --navy-deep: #060F20;
+  --card: #0F1F3A;
+  --card-hi: #142A4D;
+  --line: rgba(148,178,222,0.14);
+  --line-hi: rgba(148,178,222,0.28);
+  --blue: #2563EB;
+  --blue-soft: #5B8DFF;
+  --emerald: #10B981;
+  --emerald-soft: #34D399;
+  --white: #FFFFFF;
+  --ink-soft: #B9C6DC;
+  --ink-mute: #7C8CA8;
+  --lightgray: #F8FAFC;
+  --red: #F04452;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --container: 1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+}
+body{
+  background:var(--navy);
+  color:var(--white);
+  font-family:var(--font-body);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+ul{list-style:none;}
+.container{max-width:var(--container);margin:0 auto;padding:0 28px;}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:600;letter-spacing:-0.02em;}
+.mono{font-family:var(--font-mono);}
+::selection{background:var(--blue);color:var(--white);}
+:focus-visible{outline:2px solid var(--emerald-soft);outline-offset:3px;border-radius:4px;}
+
+/* Section scaffolding */
+.section{padding:120px 0;position:relative;}
+.section-tight{padding:90px 0;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:12.5px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--emerald-soft);margin-bottom:18px;
+}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 4px rgba(16,185,129,0.18);}
+.section-head{max-width:680px;margin-bottom:64px;}
+.section-head h2{font-size:clamp(28px,4vw,42px);margin-bottom:16px;color:var(--white);}
+.section-head p{color:var(--ink-soft);font-size:17px;}
+.section-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+
+/* Glassmorphism card */
+.glass{
+  background:linear-gradient(180deg, rgba(20,42,77,0.65), rgba(15,31,58,0.55));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  transition:border-color .35s ease, transform .35s ease, box-shadow .35s ease;
+}
+.glass:hover{border-color:var(--line-hi); transform:translateY(-4px); box-shadow:0 20px 50px -20px rgba(0,0,0,0.5);}
+
+/* Reveal on scroll */
+.reveal{opacity:0; transform:translateY(28px); transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);}
+.reveal.in{opacity:1; transform:translateY(0);}
+.reveal-delay-1{transition-delay:.08s;} .reveal-delay-2{transition-delay:.16s;} .reveal-delay-3{transition-delay:.24s;} .reveal-delay-4{transition-delay:.32s;}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 28px;border-radius:999px;font-weight:600;font-size:15px;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  white-space:nowrap;
+}
+.btn-primary{background:linear-gradient(135deg, var(--blue), #1D4ED8);color:#fff;box-shadow:0 12px 30px -10px rgba(37,99,235,0.55);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 36px -8px rgba(37,99,235,0.7);}
+.btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--line-hi);color:var(--white);}
+.btn-ghost:hover{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.4);}
+.btn-emerald{background:linear-gradient(135deg, var(--emerald), #059669);color:#03150F;box-shadow:0 12px 30px -10px rgba(16,185,129,0.5);}
+.btn-emerald:hover{transform:translateY(-2px);}
+
+/* ============ TICKER ============ */
+.ticker-wrap{
+  background:var(--navy-deep);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  white-space:nowrap;
+  padding:9px 0;
+  position:relative;
+  z-index:60;
+}
+.ticker-track{display:inline-flex;animation:ticker 38s linear infinite;}
+.ticker-wrap:hover .ticker-track{animation-play-state:paused;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 26px;font-family:var(--font-mono);font-size:13px;color:var(--ink-soft);border-right:1px solid var(--line);}
+.ticker-item b{color:var(--white);font-weight:600;}
+.ticker-item .up{color:var(--emerald-soft);}
+.ticker-item .down{color:var(--red);}
+
+/* ============ NAVBAR ============ */
+.navbar{
+  position:sticky;top:0;z-index:59;
+  background:rgba(10,25,47,0.72);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;max-width:var(--container);margin:0 auto;}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:19px;}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg, var(--blue), var(--emerald));display:flex;align-items:center;justify-content:center;font-size:16px;}
+.nav-links{display:flex;align-items:center;gap:30px;}
+.nav-links a{font-size:14.5px;color:var(--ink-soft);font-weight:500;transition:color .2s;position:relative;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{display:flex;align-items:center;gap:14px;}
+.nav-toggle{display:none;font-size:22px;}
+@media (max-width:960px){
+  .nav-links{position:fixed;top:96px;left:0;right:0;bottom:0;background:var(--navy-deep);flex-direction:column;padding:36px 28px;gap:8px;transform:translateX(100%);transition:transform .35s ease;overflow-y:auto;}
+  .nav-links.open{transform:translateX(0);}
+  .nav-links a{width:100%;padding:14px 0;border-bottom:1px solid var(--line);font-size:17px;}
+  .nav-cta .btn-ghost{display:none;}
+  .nav-toggle{display:block;}
+}
+
+/* ============ HERO ============ */
+.hero{position:relative;padding:90px 0 100px;overflow:hidden;}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% 0%, rgba(37,99,235,0.28), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 20%, rgba(16,185,129,0.18), transparent 60%);
+  pointer-events:none;
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:60px;align-items:center;position:relative;}
+@media (max-width:980px){.hero-grid{grid-template-columns:1fr;gap:56px;}}
+.hero-copy h1{font-size:clamp(36px,5.4vw,58px);line-height:1.08;margin-bottom:22px;}
+.hero-copy h1 span{background:linear-gradient(135deg, var(--blue-soft), var(--emerald-soft));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero-copy p{font-size:18px;color:var(--ink-soft);max-width:520px;margin-bottom:34px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:44px;}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;}
+.hero-stat b{display:block;font-family:var(--font-display);font-size:26px;color:var(--white);}
+.hero-stat span{font-size:13px;color:var(--ink-mute);}
+.disclaimer-chip{
+  display:inline-flex;align-items:center;gap:8px;margin-top:28px;
+  font-size:12.5px;color:var(--ink-mute);border:1px dashed var(--line-hi);
+  padding:9px 14px;border-radius:10px;
+}
+
+/* Hero chart panel */
+.hero-panel{position:relative;}
+.chart-card{padding:22px 20px 18px;position:relative;}
+.chart-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.pair-tag{display:flex;align-items:center;gap:10px;}
+.pair-tag .dot{width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 5px rgba(16,185,129,0.15);}
+.pair-tag b{font-family:var(--font-mono);font-size:15px;}
+.price-now{font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--emerald-soft);}
+.chart-svg-wrap{border-radius:10px;overflow:hidden;background:linear-gradient(180deg, rgba(37,99,235,0.06), transparent);}
+.floating-card{
+  position:absolute;padding:14px 16px;min-width:150px;
+}
+.fc-1{top:-18px;right:-14px;}
+.fc-2{bottom:-22px;left:-18px;}
+@media (max-width:600px){.floating-card{display:none;}}
+.fc-label{font-size:11px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;}
+.fc-value{font-family:var(--font-mono);font-weight:600;font-size:17px;}
+
+/* candlestick draw animation */
+.candle{transform-origin:bottom;animation:growCandle .9s cubic-bezier(.2,.8,.2,1) both;}
+.wick{stroke-dasharray:60;stroke-dashoffset:60;animation:drawWick 1s ease forwards;}
+@keyframes growCandle{from{transform:scaleY(0);opacity:0;}to{transform:scaleY(1);opacity:1;}}
+@keyframes drawWick{to{stroke-dashoffset:0;}}
+.chart-line{stroke-dasharray:1000;stroke-dashoffset:1000;animation:drawLine 2.4s ease forwards .3s;}
+@keyframes drawLine{to{stroke-dashoffset:0;}}
+
+.scroll-cue{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--ink-mute);font-size:11px;letter-spacing:.1em;text-transform:uppercase;}
+.scroll-cue .line{width:1px;height:34px;background:linear-gradient(var(--emerald-soft), transparent);animation:scrollPulse 1.8s ease infinite;}
+@keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* ============ SECTION: alt background ============ */
+.alt-bg{background:linear-gradient(180deg, var(--navy) 0%, #081428 100%);}
+
+/* Session cards */
+.session-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+@media (max-width:980px){.session-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.session-grid{grid-template-columns:1fr;}}
+.session-card{padding:26px 22px;position:relative;overflow:hidden;}
+.session-card .s-time{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-mute);margin-bottom:16px;}
+.session-card h4{font-size:19px;margin-bottom:10px;}
+.session-card p{font-size:14px;color:var(--ink-soft);}
+.session-bar{height:4px;border-radius:2px;background:var(--line);margin-top:18px;overflow:hidden;}
+.session-bar i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--emerald));}
+
+/* Market snapshot row */
+.market-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px;}
+@media (max-width:900px){.market-row{grid-template-columns:repeat(2,1fr);}}
+.market-stat{padding:22px;text-align:left;}
+.market-stat .m-icon{width:38px;height:38px;border-radius:10px;background:rgba(37,99,235,0.15);display:flex;align-items:center;justify-content:center;color:var(--blue-soft);margin-bottom:14px;}
+.market-stat b{display:block;font-family:var(--font-display);font-size:24px;}
+.market-stat span{font-size:13px;color:var(--ink-mute);}
+
+/* Basics infographic cards */
+.basics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width:900px){.basics-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:600px){.basics-grid{grid-template-columns:1fr;}}
+.basic-card{padding:26px 24px;}
+.basic-card .b-num{font-family:var(--font-mono);font-size:12px;color:var(--emerald-soft);margin-bottom:12px;letter-spacing:.08em;}
+.basic-card h4{font-size:18px;margin-bottom:9px;}
+.basic-card p{font-size:14px;color:var(--ink-soft);}
+.basic-card .b-example{margin-top:14px;padding:10px 12px;background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.2);border-radius:8px;font-family:var(--font-mono);font-size:12.5px;color:var(--blue-soft);}
+
+/* Pair cards */
+.pairs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.pair-card{padding:24px;}
+.pair-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.pair-card-head b{font-family:var(--font-mono);font-size:17px;}
+.pair-nick{font-size:12px;color:var(--ink-mute);font-style:italic;}
+.pair-card p{font-size:13.5px;color:var(--ink-soft);margin-bottom:10px;}
+.pair-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.pair-tags span{font-size:11px;padding:4px 9px;border-radius:6px;background:rgba(16,185,129,0.1);color:var(--emerald-soft);border:1px solid rgba(16,185,129,0.22);}
+
+/* MT5 steps */
+.steps-wrap{position:relative;}
+.steps-line{position:absolute;left:27px;top:10px;bottom:10px;width:2px;background:linear-gradient(var(--blue), var(--emerald));opacity:.35;}
+@media (max-width:700px){.steps-line{left:20px;}}
+.step-row{display:grid;grid-template-columns:56px 1fr;gap:22px;margin-bottom:18px;position:relative;}
+@media (max-width:700px){.step-row{grid-template-columns:42px 1fr;}}
+.step-num{width:56px;height:56px;border-radius:50%;background:var(--card);border:1px solid var(--line-hi);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:600;font-size:17px;color:var(--emerald-soft);z-index:2;}
+@media (max-width:700px){.step-num{width:42px;height:42px;font-size:14px;}}
+.step-body{padding:20px 22px;}
+.step-body h4{font-size:17px;margin-bottom:6px;}
+.step-body p{font-size:14px;color:var(--ink-soft);}
+.demo-live-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:50px;}
+@media (max-width:760px){.demo-live-compare{grid-template-columns:1fr;}}
+.dl-card{padding:28px;}
+.dl-card h4{font-size:19px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.dl-card ul li{font-size:14px;color:var(--ink-soft);padding:8px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;}
+.dl-card ul li:last-child{border-bottom:none;}
+.dl-card ul li i{color:var(--emerald-soft);margin-top:3px;}
+
+/* TA / candlestick patterns */
+.ta-concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:56px;}
+@media (max-width:900px){.ta-concepts{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:600px){.ta-concepts{grid-template-columns:1fr;}}
+.ta-card{padding:24px;}
+.ta-card h4{font-size:17px;margin-bottom:8px;}
+.ta-card p{font-size:13.5px;color:var(--ink-soft);}
+.candle-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;}
+@media (max-width:900px){.candle-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:560px){.candle-grid{grid-template-columns:repeat(2,1fr);}}
+.candle-pattern{padding:18px 14px;text-align:center;}
+.candle-pattern svg{margin:0 auto 12px;}
+.candle-pattern h5{font-size:13.5px;margin-bottom:6px;}
+.candle-pattern p{font-size:11.5px;color:var(--ink-mute);}
+
+/* Strategies */
+.strategy-list{display:flex;flex-direction:column;gap:16px;}
+.strategy-card{padding:0;overflow:hidden;}
+.strategy-head{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;cursor:pointer;gap:16px;}
+.strategy-head-l{display:flex;align-items:center;gap:16px;}
+.strategy-idx{font-family:var(--font-mono);color:var(--ink-mute);font-size:13px;min-width:26px;}
+.strategy-head h4{font-size:18px;}
+.strategy-head i.chev{transition:transform .3s ease;color:var(--ink-mute);}
+.strategy-card.open .chev{transform:rotate(180deg);}
+.strategy-body{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.strategy-card.open .strategy-body{max-height:420px;}
+.strategy-body-in{padding:0 26px 26px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media (max-width:900px){.strategy-body-in{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.strategy-body-in{grid-template-columns:1fr;}}
+.strategy-col h5{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-mute);margin-bottom:8px;}
+.strategy-col p{font-size:13.5px;color:var(--ink-soft);}
+.strategy-col.adv h5{color:var(--emerald-soft);}
+.strategy-col.risk h5{color:var(--red);}
+
+/* Risk management */
+.risk-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:50px;align-items:start;}
+@media (max-width:900px){.risk-grid{grid-template-columns:1fr;}}
+.risk-list{display:flex;flex-direction:column;gap:14px;}
+.risk-item{display:flex;gap:16px;padding:20px;}
+.risk-item .r-icon{width:42px;height:42px;flex-shrink:0;border-radius:10px;background:rgba(16,185,129,0.12);color:var(--emerald-soft);display:flex;align-items:center;justify-content:center;}
+.risk-item h4{font-size:15.5px;margin-bottom:5px;}
+.risk-item p{font-size:13.5px;color:var(--ink-soft);}
+.rr-visual{padding:28px;}
+.rr-visual h4{font-size:16px;margin-bottom:20px;}
+.rr-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.rr-bar-row .rr-label{width:60px;font-size:12px;color:var(--ink-mute);font-family:var(--font-mono);}
+.rr-bar-track{flex:1;height:14px;background:rgba(255,255,255,0.05);border-radius:7px;overflow:hidden;}
+.rr-bar-fill{height:100%;border-radius:7px;}
+.rr-note{margin-top:18px;font-size:13px;color:var(--ink-soft);padding:14px;background:rgba(37,99,235,0.08);border-radius:10px;border:1px solid rgba(37,99,235,0.18);}
+
+/* Mistakes */
+.mistakes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+@media (max-width:900px){.mistakes-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:600px){.mistakes-grid{grid-template-columns:1fr;}}
+.mistake-card{padding:24px;border-left:3px solid var(--red);}
+.mistake-card h4{font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.mistake-card h4 i{color:var(--red);}
+.mistake-card p{font-size:13.5px;color:var(--ink-soft);}
+
+/* Roadmap timeline */
+.roadmap-track{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;}
+@media (max-width:900px){.roadmap-track{grid-template-columns:1fr;}}
+.roadmap-track::before{content:'';position:absolute;top:34px;left:8%;right:8%;height:2px;background:linear-gradient(90deg,var(--blue),var(--emerald));opacity:.3;}
+@media (max-width:900px){.roadmap-track::before{display:none;}}
+.roadmap-card{padding:28px 24px;position:relative;}
+.rm-level{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-family:var(--font-mono);font-weight:600;background:var(--navy-deep);border:2px solid var(--blue-soft);position:relative;z-index:2;}
+.roadmap-card:nth-child(2) .rm-level{border-color:var(--emerald-soft);}
+.roadmap-card:nth-child(3) .rm-level{border-color:#F59E0B;}
+.roadmap-card h4{font-size:19px;margin-bottom:10px;}
+.roadmap-card ul{margin-top:14px;display:flex;flex-direction:column;gap:9px;}
+.roadmap-card ul li{font-size:13.5px;color:var(--ink-soft);display:flex;gap:9px;}
+.roadmap-card ul li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--emerald-soft);margin-top:7px;flex-shrink:0;}
+
+/* FAQ */
+.faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+.faq-item{overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:pointer;font-size:15.5px;font-weight:500;gap:16px;}
+.faq-q i{color:var(--emerald-soft);transition:transform .3s ease;flex-shrink:0;}
+.faq-item.open .faq-q i{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-item.open .faq-a{max-height:220px;}
+.faq-a p{padding:0 24px 22px;font-size:14.5px;color:var(--ink-soft);}
+
+/* CTA */
+.cta-section{padding:100px 0;position:relative;overflow:hidden;}
+.cta-box{
+  border-radius:24px;padding:70px 40px;text-align:center;position:relative;overflow:hidden;
+  background:linear-gradient(135deg, rgba(37,99,235,0.18), rgba(16,185,129,0.14));
+  border:1px solid var(--line-hi);
+}
+.cta-box h2{font-size:clamp(28px,4.2vw,42px);margin-bottom:16px;}
+.cta-box p{color:var(--ink-soft);max-width:520px;margin:0 auto 32px;font-size:16px;}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:64px 0 32px;background:var(--navy-deep);}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+@media (max-width:800px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:520px){.footer-grid{grid-template-columns:1fr;}}
+.footer-grid h5{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-mute);margin-bottom:16px;}
+.footer-grid ul li{margin-bottom:10px;}
+.footer-grid ul li a{font-size:14px;color:var(--ink-soft);transition:color .2s;}
+.footer-grid ul li a:hover{color:var(--white);}
+.footer-brand p{font-size:14px;color:var(--ink-soft);max-width:280px;margin-top:12px;}
+.social-row{display:flex;gap:10px;margin-top:18px;}
+.social-row a{width:36px;height:36px;border-radius:9px;border:1px solid var(--line-hi);display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.social-row a:hover{background:var(--blue);border-color:var(--blue);}
+.footer-disclaimer{padding:24px;border-radius:12px;background:rgba(240,68,82,0.06);border:1px solid rgba(240,68,82,0.22);font-size:13px;color:var(--ink-soft);line-height:1.7;margin-bottom:28px;}
+.footer-disclaimer b{color:var(--white);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:24px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-mute);}
+
+/* Utility */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media (max-width:700px){.grid-2{grid-template-columns:1fr;}}
+.back-top{position:fixed;bottom:26px;right:26px;width:46px;height:46px;border-radius:50%;background:var(--card);border:1px solid var(--line-hi);display:flex;align-items:center;justify-content:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .3s ease, transform .3s ease;}
+.back-top.show{opacity:1;pointer-events:auto;}
+.back-top:hover{transform:translateY(-3px);background:var(--blue);}
+</style>
+</head>
+<body>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="#top" class="brand"><span class="brand-mark"><i class="fa-solid fa-chart-line" style="color:#fff;font-size:14px;"></i></span>Forex Mastery Hub</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#what-is-forex">What is Forex</a>
+      <a href="#basics">Basics</a>
+      <a href="#pairs">Pairs</a>
+      <a href="#mt5-guide">MT5 Guide</a>
+      <a href="#technical-analysis">Technical Analysis</a>
+      <a href="#strategies">Strategies</a>
+      <a href="#risk">Risk Management</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#roadmap" class="btn btn-ghost" style="padding:10px 20px;font-size:14px;">Roadmap</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div class="hero-copy reveal in">
+      <div class="eyebrow">Forex &amp; MT5 Education</div>
+      <h1>Master Forex Trading with <span>Confidence</span></h1>
+      <p>Learn Forex fundamentals, chart reading, MT5 platform mastery, risk management, and practical trading skills — built for beginners, structured like a real curriculum.</p>
+      <div class="hero-actions">
+        <a href="#basics" class="btn btn-primary">Start Learning <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#mt5-guide" class="btn btn-ghost">Explore MT5 <i class="fa-solid fa-desktop"></i></a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b>14</b><span>Guided MT5 steps</span></div>
+        <div class="hero-stat"><b>7</b><span>Core strategies explained</span></div>
+        <div class="hero-stat"><b>0</b><span>Profit promises made</span></div>
+      </div>
+      <div class="disclaimer-chip"><i class="fa-solid fa-circle-info"></i> Educational content only — not financial advice, and no outcome is guaranteed.</div>
+    </div>
+
+    <div class="hero-panel reveal reveal-delay-2 in">
+      <div class="chart-card glass">
+        <div class="chart-card-head">
+          <div class="pair-tag"><span class="dot"></span><b>EUR / USD</b></div>
+          <div class="price-now">1.0847</div>
+        </div>
+        <div class="chart-svg-wrap">
+          <svg viewBox="0 0 460 220" width="100%" height="220" xmlns="http://www.w3.org/2000/svg">
+            <line x1="0" y1="55" x2="460" y2="55" stroke="rgba(148,178,222,0.08)"/>
+            <line x1="0" y1="110" x2="460" y2="110" stroke="rgba(148,178,222,0.08)"/>
+            <line x1="0" y1="165" x2="460" y2="165" stroke="rgba(148,178,222,0.08)"/>
+            <path class="chart-line" d="M0,150 C40,140 60,120 90,125 C120,130 140,90 170,95 C200,100 210,70 240,65 C270,60 280,100 310,95 C340,90 350,60 380,55 C410,50 430,70 460,60" fill="none" stroke="#5B8DFF" stroke-width="2" opacity="0.55"/>
+            <g id="candleGroup"></g>
+          </svg>
+        </div>
+      </div>
+      <div class="floating-card glass fc-1">
+        <div class="fc-label">Risk / Reward</div>
+        <div class="fc-value mono" style="color:var(--emerald-soft);">1 : 2.5</div>
+      </div>
+      <div class="floating-card glass fc-2">
+        <div class="fc-label">Session live</div>
+        <div class="fc-value" style="font-size:15px;">London ↔ New York</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+</section>
+
+<!-- ============ WHAT IS FOREX ============ -->
+<section class="section alt-bg" id="what-is-forex">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Foundations</div>
+      <h2>What is the Forex market?</h2>
+      <p>Forex — short for "foreign exchange" — is the global marketplace where currencies are traded against one another. It's the largest and most liquid financial market in the world, and it never fully closes on weekdays because it follows the sun across trading hubs worldwide.</p>
+    </div>
+
+    <div class="grid-2 reveal reveal-delay-1">
+      <div class="glass" style="padding:28px;">
+        <h4 style="font-size:17px;margin-bottom:10px;"><i class="fa-solid fa-globe" style="color:var(--blue-soft);margin-right:10px;"></i>How it actually works</h4>
+        <p style="font-size:14.5px;color:var(--ink-soft);">Currencies are always traded in pairs — you're simultaneously buying one currency and selling another. Trading happens over-the-counter (OTC) through a global network of banks, brokers, and financial institutions rather than on a single centralized exchange, which is why prices can differ slightly between providers.</p>
+      </div>
+      <div class="glass" style="padding:28px;">
+        <h4 style="font-size:17px;margin-bottom:10px;"><i class="fa-solid fa-users" style="color:var(--emerald-soft);margin-right:10px;"></i>Who participates</h4>
+        <p style="font-size:14.5px;color:var(--ink-soft);">Central banks, commercial banks, hedge funds, corporations moving money across borders, and individual retail traders all take part. Each group trades for different reasons — from managing national monetary policy to simply speculating on price movement — which is part of what makes the market so dynamic.</p>
+      </div>
+    </div>
+
+    <div class="market-row reveal reveal-delay-2">
+      <div class="market-stat glass"><div class="m-icon"><i class="fa-solid fa-clock"></i></div><b>24 / 5</b><span>Market is open</span></div>
+      <div class="market-stat glass"><div class="m-icon"><i class="fa-solid fa-building-columns"></i></div><b>OTC</b><span>No central exchange</span></div>
+      <div class="market-stat glass"><div class="m-icon"><i class="fa-solid fa-right-left"></i></div><b>Pairs</b><span>Always traded in twos</span></div>
+      <div class="market-stat glass"><div class="m-icon"><i class="fa-solid fa-signal"></i></div><b>4</b><span>Major trading sessions</span></div>
+    </div>
+
+    <div style="margin-top:80px;">
+      <div class="section-head reveal" style="margin-bottom:40px;">
+        <h3 style="font-size:26px;">The four major trading sessions</h3>
+        <p>Price behavior shifts depending on which financial centers are active. Understanding session overlaps helps explain why volatility rises and falls throughout the day.</p>
+      </div>
+      <div class="session-grid">
+        <div class="session-card glass reveal reveal-delay-1">
+          <div class="s-time mono">22:00 – 07:00 UTC</div>
+          <h4>Sydney</h4>
+          <p>Opens the trading day. Generally quieter, with lower volatility as major desks in Europe and the US are closed.</p>
+          <div class="session-bar"><i style="width:35%"></i></div>
+        </div>
+        <div class="session-card glass reveal reveal-delay-2">
+          <div class="s-time mono">00:00 – 09:00 UTC</div>
+          <h4>Tokyo</h4>
+          <p>Asia's main session. Yen pairs see the most activity, with moderate volatility and tighter ranges than London or New York.</p>
+          <div class="session-bar"><i style="width:50%"></i></div>
+        </div>
+        <div class="session-card glass reveal reveal-delay-3">
+          <div class="s-time mono">08:00 – 17:00 UTC</div>
+          <h4>London</h4>
+          <p>The busiest session by volume. Most of the day's directional moves and trend formation tend to originate here.</p>
+          <div class="session-bar"><i style="width:95%"></i></div>
+        </div>
+        <div class="session-card glass reveal reveal-delay-4">
+          <div class="s-time mono">13:00 – 22:00 UTC</div>
+          <h4>New York</h4>
+          <p>Overlaps with London for several hours — historically the most liquid and volatile window of the trading day.</p>
+          <div class="session-bar"><i style="width:100%"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOREX BASICS ============ -->
+<section class="section" id="basics">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Core Vocabulary</div>
+      <h2>Forex basics, explained simply</h2>
+      <p>Every trader needs to speak the language of the market before reading a single chart. These are the terms you'll see everywhere on MT5 and in every strategy on this page.</p>
+    </div>
+    <div class="basics-grid">
+      <div class="basic-card glass reveal reveal-delay-1">
+        <div class="b-num">01 · PAIR</div>
+        <h4>Currency Pairs</h4>
+        <p>Currencies are always quoted relative to another, e.g. EUR/USD. You're never buying a currency in isolation — you're expressing a view on one against the other.</p>
+        <div class="b-example">EUR/USD = Euro vs US Dollar</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-2">
+        <div class="b-num">02 · BASE</div>
+        <h4>Base Currency</h4>
+        <p>The first currency listed in a pair. It represents the currency you are buying or selling — the price tells you how much of the quote currency it's worth.</p>
+        <div class="b-example">In EUR/USD, EUR is the base</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-3">
+        <div class="b-num">03 · QUOTE</div>
+        <h4>Quote Currency</h4>
+        <p>The second currency in the pair — the one used to price the base currency. It's sometimes called the "counter currency."</p>
+        <div class="b-example">In EUR/USD, USD is the quote</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-1">
+        <div class="b-num">04 · BID/ASK</div>
+        <h4>Bid and Ask</h4>
+        <p>The bid is the price you can sell at; the ask is the price you can buy at. The ask is always slightly higher than the bid.</p>
+        <div class="b-example">Bid 1.0845 / Ask 1.0847</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-2">
+        <div class="b-num">05 · SPREAD</div>
+        <h4>Spread</h4>
+        <p>The gap between bid and ask. It's effectively the cost of entering a trade and varies by broker, pair, and market conditions.</p>
+        <div class="b-example">0.2 pip spread on EUR/USD</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-3">
+        <div class="b-num">06 · PIP</div>
+        <h4>Pips</h4>
+        <p>The standard unit of price movement — usually the fourth decimal place for most pairs, or the second for JPY pairs.</p>
+        <div class="b-example">1.0847 → 1.0857 = 10 pips</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-1">
+        <div class="b-num">07 · LOT</div>
+        <h4>Lots</h4>
+        <p>A lot is a standardized trade size. A standard lot is 100,000 units of the base currency; mini and micro lots let you trade smaller sizes.</p>
+        <div class="b-example">1 lot = 100,000 · 0.01 = micro</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-2">
+        <div class="b-num">08 · LEVERAGE</div>
+        <h4>Leverage</h4>
+        <p>Borrowed capital that lets you control a larger position than your account balance alone would allow. It magnifies both gains and losses equally.</p>
+        <div class="b-example">1:100 leverage example</div>
+      </div>
+      <div class="basic-card glass reveal reveal-delay-3">
+        <div class="b-num">09 · MARGIN</div>
+        <h4>Margin</h4>
+        <p>The portion of your account set aside as collateral to open a leveraged position. Trading beyond your available margin can trigger a margin call.</p>
+        <div class="b-example">Required margin ≠ risk taken</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MAJOR PAIRS ============ -->
+<section class="section alt-bg" id="pairs">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">The Majors</div>
+      <h2>Major Forex pairs to know</h2>
+      <p>These seven pairs make up the bulk of global trading volume. Each has its own personality — shaped by the economies, interest rates, and trading hours behind it.</p>
+    </div>
+    <div class="pairs-grid" id="pairsGrid"></div>
+  </div>
+</section>
+
+<!-- ============ MT5 GUIDE ============ -->
+<section class="section" id="mt5-guide">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Platform Walkthrough</div>
+      <h2>Your complete MT5 beginner guide</h2>
+      <p>MetaTrader 5 is the platform you'll use to watch the market, place trades, and manage risk. Follow this sequence once, in order, before you touch a live account.</p>
+    </div>
+
+    <div class="steps-wrap">
+      <div class="steps-line" aria-hidden="true"></div>
+      <div class="step-row reveal"><div class="step-num">1</div><div class="step-body glass"><h4>Download MT5</h4><p>Get the official MetaTrader 5 application from your broker's website or the platform's official distribution channel — always verify you're using a legitimate source.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">2</div><div class="step-body glass"><h4>Install MT5</h4><p>Run the installer on desktop, or download the mobile app. The setup wizard walks you through the standard installation in a couple of minutes.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">3</div><div class="step-body glass"><h4>Create a broker account</h4><p>Register with a regulated broker that offers MT5 access. This is separate from the platform itself — the broker provides your trading account and pricing.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">4</div><div class="step-body glass"><h4>Open MT5</h4><p>Launch the application. On first run you'll be prompted to log in or open a demo account directly from the welcome screen.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">5</div><div class="step-body glass"><h4>Log in to your account</h4><p>Enter the login number, password, and server name provided by your broker. Double-check the server — it's a common first-login mistake.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">6</div><div class="step-body glass"><h4>Understand the dashboard</h4><p>Get familiar with the Market Watch panel, Navigator, chart workspace, and Terminal window before doing anything else — this is your entire cockpit.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">7</div><div class="step-body glass"><h4>Add currency pairs</h4><p>Right-click inside Market Watch and choose "Show All," or add specific pairs individually so you can track the ones relevant to you.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">8</div><div class="step-body glass"><h4>Open charts</h4><p>Double-click any pair in Market Watch to open its chart. Explore timeframes — from 1-minute to monthly — using the toolbar along the top.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">9</div><div class="step-body glass"><h4>Place your first trade</h4><p>Open the "New Order" window (F9), select a volume, and choose Buy or Sell. Practice this repeatedly on a demo account before it becomes second nature.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">10</div><div class="step-body glass"><h4>Set a stop loss</h4><p>Define the price level where a losing trade automatically closes. This is the single most important habit for protecting your account.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">11</div><div class="step-body glass"><h4>Set a take profit</h4><p>Define the price level where a winning trade automatically closes, so you don't need to watch the screen to lock in a planned target.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">12</div><div class="step-body glass"><h4>Monitor open positions</h4><p>Use the Terminal window's "Trade" tab to track floating profit or loss, and the "History" tab to review everything you've closed.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">13</div><div class="step-body glass"><h4>Practice on a demo account</h4><p>Spend real time here — a demo account uses simulated funds so you can learn the platform and test ideas with zero financial risk.</p></div></div>
+      <div class="step-row reveal"><div class="step-num">14</div><div class="step-body glass"><h4>Transition from demo to live</h4><p>Only move to a live account once your process is consistent on demo. Start small, and expect the experience to feel different once real money is involved.</p></div></div>
+    </div>
+
+    <div class="demo-live-compare">
+      <div class="dl-card glass reveal">
+        <h4><i class="fa-solid fa-flask" style="color:var(--blue-soft);"></i> What changes going live</h4>
+        <ul>
+          <li><i class="fa-solid fa-check"></i> Emotional discipline becomes real — fear and greed weren't present on demo.</li>
+          <li><i class="fa-solid fa-check"></i> Execution can differ slightly due to real slippage and liquidity.</li>
+          <li><i class="fa-solid fa-check"></i> Risk management stops being theoretical — every stop loss matters.</li>
+        </ul>
+      </div>
+      <div class="dl-card glass reveal reveal-delay-1">
+        <h4><i class="fa-solid fa-seedling" style="color:var(--emerald-soft);"></i> Starting small, on purpose</h4>
+        <ul>
+          <li><i class="fa-solid fa-check"></i> Trade minimum position sizes for your first live weeks, regardless of confidence.</li>
+          <li><i class="fa-solid fa-check"></i> Judge yourself on process — following your plan — not on short-term outcomes.</li>
+          <li><i class="fa-solid fa-check"></i> Keep a simple trading journal to track decisions, not just profit and loss.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TECHNICAL ANALYSIS ============ -->
+<section class="section alt-bg" id="technical-analysis">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Reading the Chart</div>
+      <h2>Technical analysis fundamentals</h2>
+      <p>Technical analysis is the study of price and chart patterns to understand market behavior. It doesn't predict the future — it helps you react to what the market is actually doing.</p>
+    </div>
+
+    <div class="ta-concepts">
+      <div class="ta-card glass reveal reveal-delay-1"><h4><i class="fa-solid fa-layer-group" style="color:var(--blue-soft);margin-right:8px;"></i>Support &amp; Resistance</h4><p>Price levels where buying or selling pressure has historically stepped in, often causing price to pause, reverse, or break through.</p></div>
+      <div class="ta-card glass reveal reveal-delay-2"><h4><i class="fa-solid fa-chart-line" style="color:var(--blue-soft);margin-right:8px;"></i>Trend Lines</h4><p>Diagonal lines connecting swing highs or lows that visualize the current direction and speed of the market.</p></div>
+      <div class="ta-card glass reveal reveal-delay-3"><h4><i class="fa-solid fa-diagram-project" style="color:var(--blue-soft);margin-right:8px;"></i>Market Structure</h4><p>The pattern of higher highs and higher lows (uptrend) or lower highs and lower lows (downtrend) that frames every other decision.</p></div>
+      <div class="ta-card glass reveal reveal-delay-1"><h4><i class="fa-solid fa-bolt" style="color:var(--emerald-soft);margin-right:8px;"></i>Breakouts</h4><p>When price moves decisively beyond a support or resistance level, often signaling the start of a new directional move.</p></div>
+      <div class="ta-card glass reveal reveal-delay-2"><h4><i class="fa-solid fa-arrows-rotate" style="color:var(--emerald-soft);margin-right:8px;"></i>Pullbacks</h4><p>A temporary move against the prevailing trend before it resumes — often used as a lower-risk entry point by trend traders.</p></div>
+      <div class="ta-card glass reveal reveal-delay-3"><h4><i class="fa-solid fa-water" style="color:var(--emerald-soft);margin-right:8px;"></i>Candlestick Patterns</h4><p>Visual price formations built from open, high, low, and close data that can hint at potential reversals or continuations.</p></div>
+    </div>
+
+    <div class="section-head reveal" style="margin-bottom:32px;">
+      <h3 style="font-size:22px;">Six candlestick patterns worth knowing</h3>
+      <p>Each candle tells a small story about the battle between buyers and sellers during that period.</p>
+    </div>
+    <div class="candle-grid" id="candlePatternGrid"></div>
+  </div>
+</section>
+
+<!-- ============ STRATEGIES ============ -->
+<section class="section" id="strategies">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Approaches to the Market</div>
+      <h2>Popular Forex strategies</h2>
+      <p>No single strategy works in every condition. Understanding how each one behaves — and when it tends to struggle — matters more than picking a "best" one.</p>
+    </div>
+    <div class="strategy-list" id="strategyList"></div>
+  </div>
+</section>
+
+<!-- ============ RISK MANAGEMENT ============ -->
+<section class="section alt-bg" id="risk">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">The Most Important Section</div>
+      <h2>Risk management comes first</h2>
+      <p>Every strategy above only matters if your account survives long enough to use it. Risk management is what separates deliberate trading from gambling.</p>
+    </div>
+
+    <div class="risk-grid">
+      <div class="risk-list reveal">
+        <div class="risk-item glass"><div class="r-icon"><i class="fa-solid fa-ruler"></i></div><div><h4>Position sizing</h4><p>Decide how large a trade should be based on your account size and the distance to your stop loss — never a fixed lot size out of habit.</p></div></div>
+        <div class="risk-item glass"><div class="r-icon"><i class="fa-solid fa-shield-halved"></i></div><div><h4>Stop losses</h4><p>A predefined exit point that limits how much a single trade can cost you. Treat it as non-negotiable, set at the moment you enter.</p></div></div>
+        <div class="risk-item glass"><div class="r-icon"><i class="fa-solid fa-scale-balanced"></i></div><div><h4>Risk-to-reward ratio</h4><p>Compare what you stand to lose against what you stand to gain before entering. A favorable ratio can offset a lower win rate.</p></div></div>
+        <div class="risk-item glass"><div class="r-icon"><i class="fa-solid fa-piggy-bank"></i></div><div><h4>Capital preservation</h4><p>Protecting what you have takes priority over growing it. Small, consistent losses are recoverable; large ones often aren't.</p></div></div>
+        <div class="risk-item glass"><div class="r-icon"><i class="fa-solid fa-brain"></i></div><div><h4>Trading psychology</h4><p>Fear, greed, and impatience influence decisions more than most beginners expect. A written plan helps remove emotion from the moment.</p></div></div>
+        <div class="risk-item glass"><div class="r-icon"><i class="fa-solid fa-hand"></i></div><div><h4>Avoiding overtrading</h4><p>More trades isn't more opportunity — it's more exposure to cost and error. Quality of setups matters more than frequency.</p></div></div>
+      </div>
+
+      <div class="rr-visual glass reveal reveal-delay-2">
+        <h4>Risk-to-reward, visualized</h4>
+        <div class="rr-bar-row"><span class="rr-label">Risk</span><div class="rr-bar-track"><div class="rr-bar-fill" style="width:28%;background:var(--red);"></div></div><span class="mono" style="font-size:12px;color:var(--ink-mute);">1R</span></div>
+        <div class="rr-bar-row"><span class="rr-label">Reward</span><div class="rr-bar-track"><div class="rr-bar-fill" style="width:70%;background:var(--emerald);"></div></div><span class="mono" style="font-size:12px;color:var(--ink-mute);">2.5R</span></div>
+        <div class="rr-note"><i class="fa-solid fa-lightbulb" style="color:var(--emerald-soft);margin-right:6px;"></i>With a 1:2.5 ratio, a trader can be wrong more often than right and still stay profitable over a large sample of trades — this is illustrative, not a guarantee.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MISTAKES TO AVOID ============ -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Learn From Others</div>
+      <h2>Trading mistakes to avoid</h2>
+      <p>Most of these aren't knowledge problems — they're discipline problems. Recognizing them in the moment is half the battle.</p>
+    </div>
+    <div class="mistakes-grid">
+      <div class="mistake-card glass reveal reveal-delay-1"><h4><i class="fa-solid fa-fire"></i>Revenge trading</h4><p>Jumping back into the market immediately after a loss to "win it back," usually with a bigger size and less of a plan.</p></div>
+      <div class="mistake-card glass reveal reveal-delay-2"><h4><i class="fa-solid fa-gauge-high"></i>Overleveraging</h4><p>Using excessive leverage relative to account size, turning ordinary volatility into an outsized risk of ruin.</p></div>
+      <div class="mistake-card glass reveal reveal-delay-3"><h4><i class="fa-solid fa-ban"></i>Ignoring stop losses</h4><p>Moving or removing a stop loss mid-trade to "give it more room," which quietly removes your risk control entirely.</p></div>
+      <div class="mistake-card glass reveal reveal-delay-1"><h4><i class="fa-solid fa-heart-crack"></i>Emotional trading</h4><p>Letting fear, excitement, or boredom drive entries and exits instead of a predefined plan.</p></div>
+      <div class="mistake-card glass reveal reveal-delay-2"><h4><i class="fa-solid fa-file-circle-xmark"></i>Lack of a trading plan</h4><p>Entering trades without defined criteria for entry, exit, size, or risk — reacting to the market instead of executing a plan.</p></div>
+      <div class="mistake-card glass reveal reveal-delay-3"><h4><i class="fa-solid fa-person-running"></i>Chasing trades</h4><p>Entering late after a big move has already happened, out of fear of missing out rather than a valid setup.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="section alt-bg" id="roadmap">
+  <div class="container">
+    <div class="section-head reveal center" style="margin-left:auto;margin-right:auto;">
+      <div class="eyebrow" style="justify-content:center;">Your Path Forward</div>
+      <h2>A learning roadmap, not a shortcut</h2>
+      <p>Progress through these stages in order. There's no fixed timeline — moving on when you're genuinely ready matters more than moving fast.</p>
+    </div>
+    <div class="roadmap-track">
+      <div class="roadmap-card glass reveal reveal-delay-1">
+        <div class="rm-level mono">01</div>
+        <h4>Beginner</h4>
+        <p style="font-size:14px;color:var(--ink-soft);">Build your vocabulary and get comfortable with the platform.</p>
+        <ul>
+          <li>Learn core terminology and how pairs are quoted</li>
+          <li>Complete the MT5 setup and demo trading steps</li>
+          <li>Practice placing trades with stop loss and take profit</li>
+        </ul>
+      </div>
+      <div class="roadmap-card glass reveal reveal-delay-2">
+        <div class="rm-level mono">02</div>
+        <h4>Intermediate</h4>
+        <p style="font-size:14px;color:var(--ink-soft);">Develop a repeatable process around structure and risk.</p>
+        <ul>
+          <li>Study support, resistance, and market structure</li>
+          <li>Test one or two strategies consistently on demo</li>
+          <li>Build a position-sizing and risk-per-trade rule</li>
+        </ul>
+      </div>
+      <div class="roadmap-card glass reveal reveal-delay-3">
+        <div class="rm-level mono">03</div>
+        <h4>Advanced</h4>
+        <p style="font-size:14px;color:var(--ink-soft);">Refine your edge and formalize your discipline.</p>
+        <ul>
+          <li>Keep a detailed trading journal across strategies</li>
+          <li>Review performance by setup, not just outcome</li>
+          <li>Transition thoughtfully from demo toward live sizing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head reveal center">
+      <div class="eyebrow" style="justify-content:center;">Common Questions</div>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box glass reveal">
+      <h2>Start Your Forex Learning Journey Today</h2>
+      <p>Work through the fundamentals, practice on a demo account, and build habits around risk before you ever consider going live.</p>
+      <a href="#basics" class="btn btn-emerald">Begin Learning <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="footer-disclaimer">
+      <b>Educational disclaimer:</b> Forex Mastery Hub is an educational resource only. Nothing on this site constitutes financial, investment, or trading advice, and no content should be interpreted as a promise or guarantee of profit. Trading foreign exchange carries a high level of risk and may not be suitable for everyone. Always practice on a demo account, trade only with capital you can afford to risk, and consider seeking advice from a licensed financial professional before trading with real funds.
+    </div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand"><span class="brand-mark"><i class="fa-solid fa-chart-line" style="color:#fff;font-size:14px;"></i></span>Forex Mastery Hub</a>
+        <p>A structured, no-hype education hub for learning Forex fundamentals and the MT5 platform from the ground up.</p>
+        <div class="social-row">
+          <a href="#" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div>
+        <h5>Learn</h5>
+        <ul>
+          <li><a href="#what-is-forex">What is Forex</a></li>
+          <li><a href="#basics">Forex Basics</a></li>
+          <li><a href="#pairs">Major Pairs</a></li>
+          <li><a href="#technical-analysis">Technical Analysis</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Platform</h5>
+        <ul>
+          <li><a href="#mt5-guide">MT5 Beginner Guide</a></li>
+          <li><a href="#strategies">Strategies</a></li>
+          <li><a href="#risk">Risk Management</a></li>
+          <li><a href="#roadmap">Learning Roadmap</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:hello@forexmasteryhub.example"><i class="fa-solid fa-envelope" style="margin-right:8px;"></i>hello@forexmasteryhub.example</a></li>
+          <li><a href="#faq"><i class="fa-solid fa-circle-question" style="margin-right:8px;"></i>Frequently asked questions</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Forex Mastery Hub. All rights reserved.</span>
+      <span>Educational content only — not financial advice.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="back-top" id="backTop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script>
+/* ================= DATA ================= */
+const pairsData = [
+  {p:"EUR/USD", nick:"Fiber", desc:"The world's most traded pair, reflecting the relationship between the Eurozone and US economies.", chars:"Tight spreads, high liquidity, steady moves", best:"London / New York overlap", tags:["Most liquid","Low spread"]},
+  {p:"GBP/USD", nick:"Cable", desc:"Tracks the British Pound against the US Dollar and is known for sharper, faster intraday swings.", chars:"Higher volatility than EUR/USD", best:"London session", tags:["Volatile","News-sensitive"]},
+  {p:"USD/JPY", nick:"Gopher", desc:"A bridge between US and Japanese monetary policy, often reacting strongly to interest rate news.", chars:"Trend-prone, sensitive to rate differentials", best:"Tokyo / New York overlap", tags:["Trending","Rate-sensitive"]},
+  {p:"USD/CHF", nick:"Swissy", desc:"The Swiss Franc is traditionally viewed as a safe-haven currency, so this pair often moves opposite to risk sentiment.", chars:"Inverse correlation to EUR/USD is common", best:"London session", tags:["Safe-haven","Correlated"]},
+  {p:"AUD/USD", nick:"Aussie", desc:"Closely tied to commodity prices and Asia-Pacific trade flows, especially with China.", chars:"Sensitive to commodity and risk sentiment", best:"Sydney / Tokyo session", tags:["Commodity-linked"]},
+  {p:"USD/CAD", nick:"Loonie", desc:"Heavily influenced by oil prices given Canada's status as a major energy exporter.", chars:"Correlates with crude oil movements", best:"New York session", tags:["Oil-linked"]},
+  {p:"NZD/USD", nick:"Kiwi", desc:"A smaller-volume major that behaves similarly to AUD/USD, tied to agricultural exports and risk appetite.", chars:"Can be less liquid, sharper moves", best:"Sydney session", tags:["Lower liquidity"]},
+];
+
+const candleData = [
+  {name:"Doji", note:"Indecision", body:2},
+  {name:"Hammer", note:"Potential reversal up", body:14, wickBottom:34},
+  {name:"Shooting Star", note:"Potential reversal down", body:14, wickTop:34, invert:true},
+  {name:"Bullish Engulfing", note:"Buyers take control", body:24, double:true},
+  {name:"Morning Star", note:"Bottom reversal, 3 candles", body:10, triple:true},
+  {name:"Evening Star", note:"Top reversal, 3 candles", body:10, triple:true, invert:true},
+];
+
+const strategyData = [
+  {t:"Trend Following", how:"Identify the prevailing direction using structure or moving averages, then enter in that direction on pullbacks.", adv:"Can capture large, sustained moves with a clear directional bias.", risk:"Prone to whipsaws in sideways or choppy markets.", best:"Strong, established trends"},
+  {t:"Breakout Trading", how:"Enter when price closes decisively beyond a defined support, resistance, or range boundary.", adv:"Positions you early in potentially large new moves.", risk:"False breakouts are common and can trigger quick losses.", best:"Low-volatility ranges before expansion"},
+  {t:"Support and Resistance", how:"Trade bounces or rejections at well-tested horizontal price levels.", adv:"Clear, visual levels make entries and stops easier to define.", risk:"Levels can fail without warning, especially around news.", best:"Ranging markets with clear structure"},
+  {t:"Moving Average Strategy", how:"Use one or more moving averages to gauge trend direction and generate crossover signals.", adv:"Simple, systematic, and easy to apply consistently.", risk:"Lagging by nature — signals arrive after the move starts.", best:"Smooth, trending conditions"},
+  {t:"Price Action Trading", how:"Read raw candlestick behavior and structure without relying on indicators.", adv:"Highly flexible and adaptable across pairs and timeframes.", risk:"Requires significant screen time and pattern experience.", best:"Any condition, with sufficient skill"},
+  {t:"Scalping", how:"Take many small, quick trades aiming for a few pips each on very short timeframes.", adv:"Frequent opportunities and limited overnight exposure.", risk:"Costs and spreads have an outsized impact; demands intense focus.", best:"High-liquidity sessions like London/New York overlap"},
+  {t:"Swing Trading", how:"Hold positions for several days to weeks, aiming to capture medium-term price swings.", adv:"Less time-intensive than scalping; more room to be right.", risk:"Exposed to overnight and weekend gap risk.", best:"Markets with clear multi-day momentum"},
+];
+
+const faqData = [
+  {q:"Is Forex risky?", a:"Yes. Forex trading involves real financial risk, and leverage can amplify losses as easily as gains. No approach eliminates risk, which is why this site emphasizes risk management before strategy."},
+  {q:"What is MT5?", a:"MetaTrader 5 (MT5) is a widely used trading platform that lets you view charts, analyze the market, and place and manage trades through a broker."},
+  {q:"How much money do I need to start?", a:"There's no universal answer — it depends on your broker's minimums and, more importantly, on how much you can afford to risk without affecting your finances. Many traders start on a free demo account first."},
+  {q:"What is a demo account?", a:"A demo account lets you trade with simulated funds in real market conditions, so you can learn the platform and test ideas without financial risk."},
+  {q:"What is leverage?", a:"Leverage lets you control a larger position than your account balance alone would allow, by borrowing capital from your broker. It increases both potential gains and potential losses."},
+  {q:"How long does it take to learn Forex?", a:"It varies widely by person and effort. Building a solid foundation in the basics can take weeks; developing consistent discipline and a tested process typically takes much longer."},
+];
+
+/* ================= RENDER: PAIRS ================= */
+const pairsGrid = document.getElementById('pairsGrid');
+pairsData.forEach((d,i)=>{
+  const el = document.createElement('div');
+  el.className = `pair-card glass reveal reveal-delay-${(i%4)+1}`;
+  el.innerHTML = `
+    <div class="pair-card-head"><b class="mono">${d.p}</b><span class="pair-nick">"${d.nick}"</span></div>
+    <p>${d.desc}</p>
+    <p style="color:var(--ink-mute);font-size:12.5px;"><i class="fa-solid fa-chart-simple" style="margin-right:6px;"></i>${d.chars}</p>
+    <p style="color:var(--ink-mute);font-size:12.5px;"><i class="fa-solid fa-clock" style="margin-right:6px;"></i>Best: ${d.best}</p>
+    <div class="pair-tags">${d.tags.map(t=>`<span>${t}</span>`).join('')}</div>`;
+  pairsGrid.appendChild(el);
+});
+
+/* ================= RENDER: CANDLESTICK PATTERNS ================= */
+function candleSVG(d){
+  const cx=40, base=70;
+  if(d.triple){
+    return `<svg width="90" height="90" viewBox="0 0 90 90">
+      <line x1="20" y1="20" x2="20" y2="70" stroke="#F04452" stroke-width="2"/><rect x="14" y="30" width="12" height="18" fill="#F04452"/>
+      <line x1="45" y1="40" x2="45" y2="55" stroke="${d.invert?'#F04452':'#10B981'}" stroke-width="2"/><rect x="41" y="44" width="8" height="6" fill="${d.invert?'#F04452':'#10B981'}"/>
+      <line x1="70" y1="20" x2="70" y2="70" stroke="#10B981" stroke-width="2"/><rect x="64" y="42" width="12" height="18" fill="#10B981"/>
+    </svg>`;
+  }
+  if(d.double){
+    return `<svg width="90" height="90" viewBox="0 0 90 90">
+      <line x1="35" y1="30" x2="35" y2="50" stroke="#F04452" stroke-width="2"/><rect x="30" y="34" width="10" height="12" fill="#F04452"/>
+      <line x1="58" y1="18" x2="58" y2="72" stroke="#10B981" stroke-width="2"/><rect x="50" y="24" width="16" height="42" fill="#10B981"/>
+    </svg>`;
+  }
+  const wt = d.wickTop||6, wb = d.wickBottom||6, color = d.invert?'#F04452':(d.name==='Doji'?'#94A3B8':'#10B981');
+  return `<svg width="90" height="90" viewBox="0 0 90 90">
+    <line x1="45" y1="${45-wt-d.body/2}" x2="45" y2="${45+wb+d.body/2}" stroke="${color}" stroke-width="2.5"/>
+    <rect x="37" y="${45-d.body/2}" width="16" height="${Math.max(d.body,2)}" fill="${color}"/>
+  </svg>`;
+}
+const candleGrid = document.getElementById('candlePatternGrid');
+candleData.forEach((d,i)=>{
+  const el = document.createElement('div');
+  el.className = `candle-pattern glass reveal reveal-delay-${(i%4)+1}`;
+  el.innerHTML = `${candleSVG(d)}<h5>${d.name}</h5><p>${d.note}</p>`;
+  candleGrid.appendChild(el);
+});
+
+/* ================= RENDER: STRATEGIES (accordion) ================= */
+const strategyList = document.getElementById('strategyList');
+strategyData.forEach((d,i)=>{
+  const el = document.createElement('div');
+  el.className = 'strategy-card glass reveal';
+  el.innerHTML = `
+    <div class="strategy-head">
+      <div class="strategy-head-l"><span class="strategy-idx mono">0${i+1}</span><h4>${d.t}</h4></div>
+      <i class="fa-solid fa-chevron-down chev"></i>
+    </div>
+    <div class="strategy-body"><div class="strategy-body-in">
+      <div class="strategy-col"><h5>How it works</h5><p>${d.how}</p></div>
+      <div class="strategy-col adv"><h5>Advantages</h5><p>${d.adv}</p></div>
+      <div class="strategy-col risk"><h5>Risks</h5><p>${d.risk}</p></div>
+      <div class="strategy-col"><h5>Best conditions</h5><p>${d.best}</p></div>
+    </div></div>`;
+  el.querySelector('.strategy-head').addEventListener('click', ()=> el.classList.toggle('open'));
+  strategyList.appendChild(el);
+});
+strategyList.firstElementChild && strategyList.firstElementChild.classList.add('open');
+
+/* ================= RENDER: FAQ ================= */
+const faqList = document.getElementById('faqList');
+faqData.forEach((d,i)=>{
+  const el = document.createElement('div');
+  el.className = 'faq-item glass reveal';
+  el.innerHTML = `<div class="faq-q">${d.q}<i class="fa-solid fa-plus"></i></div><div class="faq-a"><p>${d.a}</p></div>`;
+  el.querySelector('.faq-q').addEventListener('click', ()=> el.classList.toggle('open'));
+  faqList.appendChild(el);
+});
+faqList.firstElementChild && faqList.firstElementChild.classList.add('open');
+
+/* ================= TICKER ================= */
+const tickerData = [
+  {p:'EUR/USD',v:'1.0847',d:'up',c:'+0.12%'},{p:'GBP/USD',v:'1.2634',d:'down',c:'-0.08%'},
+  {p:'USD/JPY',v:'151.22',d:'up',c:'+0.21%'},{p:'USD/CHF',v:'0.8812',d:'down',c:'-0.05%'},
+  {p:'AUD/USD',v:'0.6521',d:'up',c:'+0.09%'},{p:'USD/CAD',v:'1.3688',d:'down',c:'-0.11%'},
+  {p:'NZD/USD',v:'0.6012',d:'up',c:'+0.06%'},
+];
+const tickerTrack = document.getElementById('tickerTrack');
+function tickerHTML(){return tickerData.map(t=>`<span class="ticker-item"><b>${t.p}</b>${t.v}<span class="${t.d}">${t.c}</span></span>`).join('');}
+tickerTrack.innerHTML = tickerHTML() + tickerHTML();
+
+/* ================= HERO CANDLES ================= */
+const candleGroup = document.getElementById('candleGroup');
+const heroCandles = [
+  {x:20,h:38,y:150,up:true},{x:50,h:52,y:130,up:true},{x:80,h:30,y:145,up:false},{x:110,h:60,y:115,up:true},
+  {x:140,h:44,y:120,up:false},{x:170,h:70,y:95,up:true},{x:200,h:38,y:100,up:true},{x:230,h:55,y:65,up:true},
+  {x:260,h:48,y:90,up:false},{x:290,h:65,y:60,up:true},{x:320,h:36,y:65,up:false},{x:350,h:58,y:45,up:true},
+  {x:380,h:42,y:50,up:true},{x:410,h:50,y:35,up:true},{x:440,h:34,y:55,up:false},
+];
+heroCandles.forEach((c,i)=>{
+  const color = c.up ? '#10B981' : '#F04452';
+  const wickH = c.h + 16;
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','candle');
+  g.style.animationDelay = (0.4 + i*0.05)+'s';
+  g.innerHTML = `<line class="wick" x1="${c.x+6}" y1="${c.y-8}" x2="${c.x+6}" y2="${c.y+c.h+8}" stroke="${color}" stroke-width="1.5"/>
+    <rect x="${c.x}" y="${c.y}" width="12" height="${c.h}" fill="${color}" rx="1.5"/>`;
+  candleGroup.appendChild(g);
+});
+
+/* ================= NAV TOGGLE ================= */
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', ()=>{
+  const open = navLinks.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open);
+  navToggle.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
+});
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{
+  navLinks.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', false);
+  navToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+}));
+
+/* ================= SCROLL REVEAL ================= */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+  });
+}, {threshold:0.12, rootMargin:'0px 0px -60px 0px'});
+revealEls.forEach(el=>io.observe(el));
+
+/* ================= BACK TO TOP ================= */
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', ()=>{
+  backTop.classList.toggle('show', window.scrollY > 700);
+});
+backTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+</body>
+</html>
